@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="20190709.css" type="text/css"/>
+	</head>
+	<body>
+		<div id="box">
+		<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+	</body>
+</html>
+<script>
+	var box=document.querySelector("#box");
+	var ul=document.querySelector("#box ul");
+	var li=document.querySelectorAll("#box ul li");
+	//循环遍历给每个li绑定背景图片
+	for(var i=0;i<li.length;i++){
+		li[i].style.backgroundImage="url(image/"+(i+1)+".jpeg)";
+		
+		//鼠标放在每个li上时设置一个动画
+		li[i].onmouseover=function(){
+			//给每个li宽度为50px
+			for(var j=0;j<li.length;j++){
+				action(li[j],{"width":50});
+			}
+			//给当前的li宽度为600px
+			action(this,{"width":600});
+		};
+	};
+	//鼠标移除时给每个li的宽度为160px;
+	 box.onmouseout=function(){
+		for(var i=0;i<li.length;i++){
+			action(li[i],{"width":160});
+		}
+	}
+	//动画函数
+	function action(obj,json){
+		clearInterval(obj.timer);
+		obj.timer=setInterval(function(){
+			var flag=true;
+			for(var k in json){
+				//console.log(k) k=width
+				
+				var leader=parseInt(getStyle(obj,k)) || 0;
+				//console.log(leader)
+				var target=json[k];
+				//console.log(1002,target)
+				var step=(target-leader)/10;
+				//console.log(step)
+				step=step>0 ? Math.ceil(step) : Math.floor(step);
+				leader = leader + step;
+				obj.style[k] = leader + "px";
+				 if (leader != target) {
+
+                flag = false;//告诉标记 当前这个属性还没到达
+
+				}
+			}
+			//全部属性都到达目标值才能清空
+			if(flag){
+				clearInterval(obj.timer);
+			}
+		},30);
+	}
+	//获取对象obj里边的属性attr
+	function getStyle(obj, attr) {
+		
+    if (window.getComputedStyle) {
+        return window.getComputedStyle(obj, null)[attr];
+    } else {
+        return obj.currentStyle[attr];
+    }
+}
+</script>
