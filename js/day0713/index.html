@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时间</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<style>
+    table tr td {width: 60px;height: 60px;border: 1px solid black}
+    .curday{background-color: blue;}
+</style>
+
+
+
+
+<div id="currentTime" style="border: 1px solid black;font-size: 20px "><h2><script>document.write(Date())</script></h2></div>
+
+
+
+<div id="rili">
+    <table>
+        <thead>
+             <tr>
+                 <td>星期一</td><td>星期二</td><td>星期三</td><td>星期四</td><td>星期五</td><td>星期六</td><td>星期日</td>
+             </tr>
+        </thead>
+        <tbody>
+
+
+        </tbody>
+    </table>
+</div>
+
+
+
+</body>
+</html>
+        <script>
+
+           var t=setTimeout(time,1000);
+            function time(){
+
+                var myDate=new Date();
+
+                var y=myDate.getFullYear();
+                var m=myDate.getMonth();
+				var curM=m+1;
+                var d=myDate.getDate();
+                var h=myDate.getHours();
+                var f=myDate.getMinutes();
+                var s=myDate.getSeconds();
+                var w=myDate.getDay();
+                var week=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+                document.querySelector("#currentTime").innerHTML=myDate+";"+y+"年"+curM+"月"+d+"日"+h+"时"+f+"分"+s+"秒"+week[w];
+                t=setTimeout(time,1000);
+            }
+           const S=24*60*60*1000
+            var curDate=new Date();
+            var d=curDate.getDate();
+			console.log(d);
+			
+			var w=curDate.getDay();
+            var curT=curDate.getTime();
+            var firstDateT=curT-(d-1)*24*60*60*1000;
+            var firstDate=new Date(firstDateT);
+            var str ="";
+			
+
+           for(var i=0;i<5;i++){
+               var st="";
+			
+			 
+               for(var j=0;j<7;j++){
+				   //console.log(i,j)
+					
+                    var newDate=new Date(firstDateT+(i*7+j)*S);
+					
+                    var date=newDate.getDate();
+					var m=newDate.getMonth();
+					var curM=m+1;
+					
+					 if(date==d){
+									 st+="<td class='curday'>"+date+"/"+curM+"</td>";
+					}else{
+						st+="<td>"+date+"/"+curM+"</td>";
+					}
+
+               }
+
+               str += "<tr>"+st+"</tr>";
+
+           }
+		   
+           document.querySelector("#rili table tbody").innerHTML=str;
+
+
+        </script>
