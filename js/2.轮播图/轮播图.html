@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>轮播图</title>
+<style type="text/css">
+*{
+margin:0;
+padding:0;
+}
+.banner{
+width:670px;
+height:505px;
+margin: 30px auto;
+background-color:#ccc;
+position:relative;
+
+}
+
+.slide{
+position:absolute;
+}
+.slide li{
+list-style:;
+}
+.prev{
+position:absolute;
+top:50%;
+left:0;
+width:30px;
+height:40px;
+font-size:25px;
+color:yellow;
+height:30px;
+background-color:rgb(0,0,0,0.5);
+text-align:center;
+cursor:pointer;
+}
+.next{
+position:absolute;
+top:50%;
+right:0;
+width:30px;
+height:40px;
+font-size:25px;
+color:yellow;
+height:30px;
+background-color:rgb(0,0,0,0.5);
+text-align:center;
+cursor:pointer;
+}
+.btn{
+position:absolute;
+left: 50%;
+bottom:20px;
+width:150px;
+height:30px;
+background-color:rgb(0,0,0,0.5);
+
+}
+.slides{
+list-style:none;
+}
+.btn span{
+display: inline-block;
+//float:left;
+margin-left:4px;
+margin-top:4px;
+ left:0;
+width:20px;
+height:20px;
+background-color:#ffff;
+border-radius:50%;
+cursor:pointer;
+text-align:center;
+}
+.btn span.active{
+background:red;
+color:white;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+<div class="banner">
+<ul class="slides">
+<li class="slide"><img src="images/1.jpeg" alt="first" id="img_"/></li>
+<li class="slide"><img src="images/2.jpeg" alt="two" id="img_"/></li>
+<li class="slide"><img src="images/3.jpeg" alt="three" id="img_"/></li>
+<li class="slide"><img src="images/4.jpeg" alt="four" id="img_"/></li>
+<li class="slide"><img src="images/5.jpeg" alt="five" id="img_"/></li>
+</ul>
+
+<div class="prev"> < </div>
+<div class="next"> > </div>
+
+<div class="btn">
+<span index="0" class="active">1</span>
+<span index="1">2</span>
+<span index="2" >3</span>
+<span index="3">4</span>
+<span index="4">5</span>
+
+</div>
+
+</div>
+</body>
+<script type="text/javascript">
+  var btn=document.querySelector(".btn")
+  console.log(btn);
+   btn.addEventListener("click",function(evt){
+  console.log(evt);
+  var i=evt.target.getAttribute("index")
+  changImg(i)
+  changbutton(i)
+});
+    
+             function changImg(i){
+	 var li_arr=document.querySelectorAll("ul li")
+                console.log(i,li_arr)
+	for(var k=0;k<li_arr.length;k++){
+											 li_arr[k].style.display="none"; 	
+	
+	}
+       
+                 li_arr[i].style.display="block";
+               
+};
+/*
+function changbutton(i){
+var li_arr=document.querySelectorAll(".btn span")
+for(var k=0;k<li_arr.length;k++)
+{
+if(k==i)
+{
+	li_arr[k].style.background="red";
+	li_arr[k].style.color="white"
+}else{
+	li_arr[k].style.background="white";
+                li_arr[k].style.color="black";
+}
+}
+}
+*/
+function changbutton(i){
+var li_arr=document.querySelectorAll(".btn span")
+for(var k=0;k<li_arr.length;k++)
+{
+if(k==i)
+{ 
+     li_arr[k].classList.add("active")	
+}else{
+	
+                li_arr[k].classList.remove("active");
+}
+}
+}
+var rightArrow=document.querySelector(".next")
+rightArrow.addEventListener("click",function(evt){
+//先获取当前图片对应的节点
+var cur=document.querySelector(".btn span.active")
+ //获取当前节点的索引值
+var curIndex=cur.getAttribute("index");
+ curIndex++;
+// alert(curIndex)
+if(curIndex>=5){
+  curIndex=0;
+}
+changImg(curIndex);
+
+  changbutton(curIndex);  
+})
+var leftArrow=document.querySelector(".prev")
+leftArrow.addEventListener("click",function(evt){
+//先获取当前图片对应的节点
+var cur=document.querySelector(".btn span.active")
+ //获取当前节点的索引值
+var curIndex=cur.getAttribute("index");
+ curIndex--;
+// alert(curIndex)
+if(curIndex<0){
+  curIndex=4;
+}
+changImg(curIndex);
+
+  changbutton(curIndex);  
+})
+
+//自动轮播
+setInterval(function(){
+  //rightArrow.click()
+leftArrow.click();
+},3000)
+
+</script>
+</html>

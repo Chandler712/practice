@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>CSS轮播图参考</title>
+<style type="text/css">
+*{
+margin:0;
+padding:0;
+}
+.banner{
+width:670px;
+height:505px;
+margin: 30px auto;
+background-color:#ccc;
+position:relative;
+
+}
+
+.slide{
+position:absolute;
+}
+.slide li{
+list-style:;
+}
+.prev{
+position:absolute;
+top:50%;
+left:0;
+width:30px;
+height:40px;
+font-size:25px;
+color:yellow;
+height:30px;
+background-color:rgb(0,0,0,0.5);
+text-align:center;
+cursor:pointer;
+}
+.next{
+position:absolute;
+top:50%;
+right:0;
+width:30px;
+height:40px;
+font-size:25px;
+color:yellow;
+height:30px;
+background-color:rgb(0,0,0,0.5);
+text-align:center;
+cursor:pointer;
+}
+.btn{
+position:absolute;
+left: 50%;
+bottom:20px;
+width:90px;
+height:30px;
+background-color:rgb(0,0,0,0.5);
+
+}
+.slides{
+list-style:none;
+}
+.btn span{
+display: inline-block;
+//float:left;
+margin-left:4px;
+margin-top:4px;
+ left:0;
+width:20px;
+height:20px;
+background-color:#ffff;
+border-radius:50%;
+cursor:pointer;
+text-align:center;
+}
+.btn span.active{
+background:red;
+color:white;
+}
+
+</style>
+
+
+
+
+</head>
+
+<body>
+<div class="banner">
+<ul class="slides">
+<li class="slide"><img src="images/1.jpeg" alt="first" id="img_"/></li>
+<li class="slide"><img src="images/2.jpeg" alt="two" id="img_"/></li>
+<li class="slide"><img src="images/3.jpeg" alt="two" id="img_"/></li>
+
+</ul>
+
+<div class="prev"> < </div>
+<div class="next"> > </div>
+
+<div class="btn">
+<span index="0" class="active test">1</span>
+<span index="1">2</span>
+<span index="2">3</span>
+
+</div>
+
+</div>
+</body>
+<script type="text/javascript">
+/* 点击span切换li元素的图片*/
+//获取span的父节点
+var btn=document.querySelector(".btn");
+//监听btn下的子节点，点击相应的span，调用对应的函数
+btn.addEventListener("mouseover",function(evt){
+//获取span的属性值，
+
+var node=evt.target
+console.log(evt)
+if(node.nodeName.toLowerCase()=="span"){
+var i=node.getAttribute("index");
+changImg(i);
+changBackColor(i);
+}
+
+
+});
+
+/*1.函数，利用span中的属性值，展现相应的li中的图片*/
+function changImg(i)
+{
+var list_arr=document.querySelectorAll("ul li");//如果用getElementsByClassName
+//console.log(list_arr.length);
+//alert(list_arr.length);
+for(var k=0;k<list_arr.length;k++)
+{
+if(k==i)
+	{list_arr[k].style.display="block";
+                 //list_arr[k].style.background="red";  改变的颜色是li标签中的背景
+	} 
+else
+	{
+	list_arr[k].style.display="none";
+	}
+}
+}
+/*2.点击span时添加背景颜色,离开时还原成原背景色*/
+function changBackColor(i)
+{ var btnSpanColor=document.querySelectorAll(".btn span")
+for(var k=0;k<btnSpanColor.length;k++)
+{
+if(k==i)
+{	
+                 btnSpanColor[k].style.background="red";  //改变btn span 内的颜色
+                 btnSpanColor[k].style.color="white"
+	} 
+else
+	{
+	btnSpanColor[k].style.background="white";
+                btnSpanColor[k].style.color="black"
+	}
+}
+}
+/*3.点击span时改变属性值颜色为白色,离开时为黑色*/
+function changBackColor(i)
+{ var btnSpanColor=document.querySelectorAll(".btn span")
+for(var k=0;k<btnSpanColor.length;k++)
+{
+if(k==i)
+{	
+                 btnSpanColor[k].classList.add("active");  //改变btn span 内的颜色
+    
+	} 
+else
+	{
+	btnSpanColor[k].classList.remove("active");
+	}
+}
+}
+
+/*4.左右箭头点击轮播*/
+//左箭头
+var leftArrow=document.querySelector(".prev");
+leftArrow.addEventListener("click",function(evt){
+var currentKnit=document.querySelector(".btn span.active")
+var cur=currentKnit.getAttribute("index")
+cur--;
+//alert(cur);
+if(cur<=-1){
+cur=2;
+}
+
+changImg(cur);
+changBackColor(cur);
+
+
+})
+//右箭头
+var rightArrow=document.querySelector(".next");
+rightArrow.addEventListener("click",function(evt){
+var currentKnit=document.querySelector(".btn span.active")
+var cur=currentKnit.getAttribute("index")
+cur++;
+//alert(cur);
+if(cur>=3){
+cur=0;
+}
+
+changImg(cur);
+changBackColor(cur);
+
+
+})
+
+/*5.定时器，自动播放效果*/
+setInterval( function(){
+rightArrow.click();
+
+
+},3000)
+
+</script>
+</html>

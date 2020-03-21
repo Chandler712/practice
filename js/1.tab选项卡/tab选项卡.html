@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>tab选项卡</title>
+		<style type="text/css">
+			*{
+			margin: 10px  auto;
+			}
+			#navigation a{
+			position:relative;
+			width:150px;
+			height:30px;
+			display:block;
+			float:left;
+			text-align:center;
+			margin:auto;
+			border:1px solid black;
+			cursor:pointer;
+			}
+			.active {
+			background: red;
+			}
+			#content{
+			position:absolute;
+			width:456px;
+			background:blue;
+			margin:30px auto;
+			
+			}
+			#content1,#content2,#content3{
+			width:456px;
+			height:60px;
+			//background:yellow;
+			text-align:center;
+			padding-top:30px;
+			display:none;
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="navigation">
+		<a class="active">百度</a>
+		<a>谷歌</a>
+		<a>火狐</a>
+		</div>
+		<div id="content">
+			<div id="content1" style="display:block;">百度搜素|| 百度资讯 || 百度地图</div>
+			<div id="content2">谷歌搜素|| 谷歌新闻 || 谷歌地图</div>
+			<div id="content3">火狐搜素|| 火狐资讯 || 天气中心</div>
+		
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var a=document.querySelectorAll("#navigation a");
+	//console.log(a);
+	var content=document.querySelectorAll("#content div");
+	//console.log(content)
+	for(var i=0;i<a.length;i++){
+		a[i].index=i;
+		a[i].onclick=function()
+	{
+			for(var i=0;i<a.length;i++)
+		{
+			a[i].className=" ";
+			content[i].style.display="none";
+		}
+		this.className="active";
+		content[this.index].style.display="block";
+	}
+}
+
+
+</script>

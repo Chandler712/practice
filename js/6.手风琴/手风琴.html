@@ -1,0 +1,116 @@
+﻿<DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>手风琴</title>
+	<style type="text/css">
+		*{
+		margin:0;
+		padding:0;
+		}
+		#box{
+		width:800px;
+		height:502px;
+		margin:20px auto;
+		border:1px solid red;
+		overflow:hidden;
+		}
+		#box ul{
+		list-style:none;
+		width:800px;
+		}
+		#box ul li{
+		width:670px;
+		height:502px;
+		float:left;
+		//background-image:url(images/1.jpeg);
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div id="box">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+</body>
+</html>
+<script type="text/javascript">
+var box=document.querySelector("#box");
+
+var ul=document.querySelector("#box ul")  //var ul=box.children[0];
+//console.log(ul);
+
+var lis=document.querySelectorAll("#box ul li")  //var lis=ul.children;
+//console.log(lis)
+for(var i=0;i<=lis.length;i++)
+{
+lis[i].style.backgroundImage="url(images/"+(i+1)+".jpeg)";
+lis[i].onmouseover=function()
+	{
+		for(var j=0;j<lis.length;j++){
+		animate(lis[j],{"width":50});
+		}
+	animate(this,{"width":600});
+
+	};
+
+}
+box.nomouseout=function() {
+    for (var i = 0; i < lis.length; i++) {
+        animate(lis[i], {"width": 240});
+    }
+};
+//jQuery中有animate动画函数，下面是实现的原理，虽然没有jQ的强大，但是基本的效果实现还是没有问题的
+
+function animate(obj, json) {
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function () {
+
+        //先假设 这一次执行完 所有的属性都到达目标了
+
+        var flag = true;
+        for (var k in json) {
+            var leader = parseInt(getStyle(obj, k)) || 0;
+            var target = json[k];
+            var step = (target - leader) / 10;
+            step = step > 0 ? Math.ceil(step) : Math.floor(step);
+            leader = leader + step;
+            obj.style[k] = leader + "px";
+            //if (leader === target) {
+            //    clearInterval(obj.timer);
+            //}
+            console.log("代码还在运行");
+            if (leader != target) {
+
+                flag = false;//告诉标记 当前这个属性还没到达
+
+            }
+        }
+
+        //如果此时仍然为true 就说明真的都到达了
+
+        if (flag) {
+            clearInterval(obj.timer);
+        }
+    }, 15);
+}
+
+//全部属性都到达目标值才能清空
+
+function getStyle(obj, attr) {
+    if (window.getComputedStyle) {
+        return window.getComputedStyle(obj, null)[attr];
+    } else {
+        return obj.currentStyle[attr];
+    }
+}
+
+</script>
