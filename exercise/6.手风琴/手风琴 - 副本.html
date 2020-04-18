@@ -1,0 +1,81 @@
+﻿<DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>手风琴</title>
+	<style type="text/css">
+		*{
+		margin:0;
+		padding:0;
+		}
+		#box{
+		width:800px;
+		height:502px;
+		margin:20px auto;
+		border:1px solid red;
+		overflow:hidden;
+		}
+		#box ul{
+		list-style:none;
+		width:800px;
+		}
+		#box ul li{
+		width:670px;
+		height:502px;
+		float:left;
+		//background-image:url(images/1.jpeg);
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div id="box">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+</body>
+</html>
+<script type="text/javascript">
+var box=document.querySelector("#box");
+
+var ul=document.querySelector("#box ul")  //var ul=box.children[0];
+//console.log(ul);
+
+var lis=document.querySelectorAll("#box ul li")  //var lis=ul.children;
+//console.log(lis)
+//循环遍历 lis 绑定背景图
+for(var i=0;i<=lis.length;i++)
+{
+lis[i].style.backgroundImage="url(images/"+(i+1)+".jpeg)";
+//给每一个li注册鼠标经过事件 鼠标经过后要排他
+
+lis[i].onmouseover=function()
+	{
+    //干掉所有人 让所有人的宽度 渐渐地 变为50
+
+		for(var j=0;j<lis.length;j++){
+		animate(lis[j],{"width":50});
+		}
+	animate(this,{"width":600});
+
+	};
+
+}
+
+box.nomouseout=function() {
+    for (var i = 0; i < lis.length; i++) {
+    //留下我自己 让我的宽度 渐渐地 变为800
+
+        animate(lis[i], {"width": 240});
+    }
+};
+
+
+</script>

@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>控制div属性</title>
+	<style type="text/css">
+	*{
+		margin:  auto;
+	}
+	#headler{
+		width:600px;
+		height:30px;
+	}
+	#headler a{
+		display:block;
+		float:left;
+		margin:10px auto;
+		margin-left:5px;
+		padding:0 50px 0 30px;
+		border:1px solid #ccc;
+		background:yellow;
+		text-decoration:none;
+		cursor:pointer;
+	}
+	
+	#changeDiv{
+		width:100px;
+		height:100px;
+		background:red;
+		margin:30px auto;
+		display:block;
+	}
+
+	</style>
+</head>
+
+<body>
+	<div id="headler">
+		<a>变高</a>
+		<a>变宽</a>
+		<a>变色</a>
+		<a>隐藏</a>
+		<a>重置</a>
+	</div>
+	<div id="changeDiv">
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	var aDiv=document.querySelectorAll("#headler a")   //获取a标签
+	//var aDiv=document.getElementsByTagName("a");
+	var changeDiv=document.querySelector("#changeDiv")  //获取changeDiv
+
+	var arrStyle=['height','width','background','display','display'];  //建立一个数组，存放样式
+	var arrChan=['200px','200px','yellow','none','block'];    //建立一个数组，存放样式值
+
+	var changeStyle=function(ele,attr,val){       //传三个参数，ele-获取的Div样式；attr-要改变div样式；val-样式值    **改变样式及样式值**
+		ele.style[attr]=val;                         
+					
+	}
+	for(var i=0;i<aDiv.length; i++)       // 遍历a标签
+	{
+		aDiv[i].index=i;          //设置对应的index，添加属性
+		aDiv[i].onclick=function(){                   //绑定点击事件
+			if(this.index==aDiv.length-1){                        //重置按钮，清空之前的样式  方法一 （没有这一步,重置时保留前面的样式,和前一步变色时样式保留一致）
+				changeDiv.style.cssText=" ";
+				}
+			//this.index==aDiv.length-1   && (changeDiv.style.cssText=" ");       //重置按钮，清空之前的样式   方法二 
+			changeStyle(changeDiv,arrStyle[this.index],arrChan[this.index])        //调用函数
+		}
+	}
+
+</script>
+<!-
+this.index==aDiv.length-1 && (changeDiv.style.cssText=" ");      
+重置按钮，清空之前的样式  是指前半句this.index==aDiv.length-1为true时，执行下半句  也就是当遍历到重置按钮时，先清除之前添加的样式。用“与”（&&）代替了if判断语句
+->	

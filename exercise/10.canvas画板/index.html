@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画板</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+        body,div,canvas,h5,input,ul,li,p,button{
+            margin: 0px;
+            padding: 0px;
+            position: relative;
+            
+        }
+        #mycanvas{
+            
+           margin: 5px;
+       }
+        #content{
+            margin: 5px auto;
+            width: 700px;
+            height: 510px;
+            border: 1px solid gray;
+            
+        }
+        #canvas_selector{
+            position: absolute;
+            margin-left: 505px;
+            margin-top: -512px;
+            
+            height: 500px;
+            width: 190px;
+            border:1px solid black;
+        }
+        .title{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+       
+        ul li{
+            
+            list-style-type: none;
+            margin: 10px 30px 10px 20px;
+            display: block;
+            float: left;
+            width: 40px;
+            height: 20px;
+            background:greenyellow;
+            cursor: pointer;
+            border: 1px solid gray;
+        }
+     
+        #canvas_color,#canvas_brush,#canvas_control,#canvasImage{
+            
+            margin:50px 0 50px 0;
+        }
+       
+        #canvas_brush{
+           
+            height: 80px;
+            margin:10px 10px 0px 20px;
+
+            background:greenyellow;
+            text-align:center;
+            
+        } 
+        #lineT{
+            width: 150px;
+            height: 30px;
+            background:bisque;
+        }
+        #canvas_control{
+            margin:10px 10px 20px 30px;
+            text-align:center;
+        }
+        
+        #canvasImage{
+            text-align: center;
+           
+        }
+        #imgDiv{
+            margin: 0 auto;
+        }
+        #line{
+            width: 40px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <canvas id="mycanvas" width="500" height="500" style="border: 1px solid red;"></canvas>
+        <div id="canvas_selector">
+            
+            <div id="canvas_color">
+                
+                <h5 class="title">颜色<input type="color" name="color" id="changeColor" /></h5>
+            </div>
+            <div id="canvas_brush">
+                <h5 class="title">画笔大小</h5>
+                <input type="range" id="lineT" min="1" max="100" value="2">
+            </div>
+            <div id="canvas_control">
+                <h5 class="title">操作</h5>
+                <span><button style="background:greenyellow" id="prev">上一步</button></span>
+                
+                <span><button style="background:greenyellow" id="cloth">橡皮擦</button></span>
+                <span><button style="background:#ffc200" id="clear">清除</button></span>
+            </div>
+            <div id="canvasImage">
+                <button id="createImg">生成图像</button>
+            </div>
+        </div>
+        
+    </div>
+    <div id="imgDiv"></div>
+    
+</body>
+</html>
+<script>
+    var c=$("#mycanvas")[0];
+    var canvas= $("#mycanvas");
+    console.log(c);
+    var ctx=c.getContext("2d");//创建画布对象
+    var bool=false;
+    var left=$("#mycanvas").offset().left;//获取画布的left值
+    console.log("left",left);
+    var top=$("#mycanvas").offset().top;//获取画布的top值
+    console.log("top",top);
+    var canvasW=$("#mycanvas").width();//获取画布的宽度
+    console.log("canvasW",canvasW);
+    var canvasH=$("#mycanvas").height();//获取画布的高度
+    console.log("canvasH",canvasH);
+    var img = []; //用于存放画布图片截图的数组
+    var imgDiv=document.getElementById("imgDiv");
+    var content=document.getElementById("content")
+    
+    var color="#000";
+    
+    ctx.lineCap="round";// 设置线条的结束端点样式    
+    ctx.lineJion="round";//设置两条线相交时，所创建的拐角类型  
+     
+  
+    
+    //鼠标点击设置画布起点
+    /* $("#mycanvas") */canvas.mousedown(function(e){
+        bool=true;
+        console.log("mousedown",bool);
+        ctx.beginPath();//起始/重置一条路径
+        ctx.moveTo(e.clientX-left,e.clientY-top); //把路径移动到画布中的指定点，不创建线条
+        var pic=ctx.getImageData(0,0,canvasW,canvasH);//获取当前画布的图像
+        img.push(pic);//将当前图像存入数组
+    });
+    //当bool=ture时鼠标移动画线
+    /* $("#mycanvas") */canvas.mousemove(function(e){
+       console.log("mousemove",bool);
+        if(bool){ //通过bool值控制画线的连续性,如果bool=true,画线
+            console.log("if(bool)",bool);
+            ctx.lineTo(e.clientX-left,e.clientY-10);//添加一个新点，在画布中创建从该点到最后指定点的线条
+            ctx.stroke();//画线
+        }
+    });
+    //鼠标移出画布或者抬起时，退出当前画线，并新建画线，实现画线断续
+    /* $("#mycanvas") */canvas.mouseout(function(e){
+        ctx.closePath();//当鼠标移出画布区域时,创建从当前点回到起始点的路径
+        bool=false;
+        console.log("mouseout",bool);
+    }); 
+    /* $("#mycanvas") */canvas.mouseup(function(e){
+        ctx.closePath();//当鼠标抬起时,创建从当前点回到起始点的路径
+        bool=false;
+        console.log("mouseup",bool);
+    }); 
+
+
+    //清除画布
+    $("#clear").click(function(){
+        //alert("Are you sure clear the canvas?");
+        ctx.clearRect(0,0,canvasW, canvasH);//创建矩形清空
+    });
+    //擦除画布
+    $("#cloth").click(function(){
+        ctx.strokeStyle="#fff";//利用画线为白色实现橡皮擦功能
+    });
+    //上一步
+    $("#prev").click(function(){
+        if(img.length>=0){
+            console.log("img.length",img.length);
+            var newImgLength=img.length;
+            console.log("newImgLength",newImgLength);
+            ctx.putImageData(img.pop(),0,0);
+            
+         
+        }
+    });
+    //改变颜色
+    $("#changeColor").change(function(){
+        ctx.strokeStyle=this.value;//改变颜色
+    });
+    //改变画笔大小
+    $("#lineT").change(function(){
+        ctx.lineWidth=this.value;
+    });
+  
+    //生成图片
+    $("#createImg").click(function(){
+        var url=c.toDataURL('image/png');
+        var newImg=new Image();//创建一个Image对象
+        newImg.src=url;
+        imgDiv.appendChild(newImg);
+        imgDiv.style.width="500px";
+        imgDiv.style.height="500px";
+        imgDiv.style.background="#ccc";
+        
+    });
+
+
+
+        
+    
+</script>
