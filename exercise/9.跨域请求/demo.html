@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>跨域请求</title>
         
         <style>
@@ -15,7 +16,7 @@
             }
             body{
                 background: url('https://pic3.pocoimg.cn/image/poco/works/48/2011/1120/14/55703128201111202246044290245632596_002_55703128.jpg?imageMogr2/auto-orient/thumbnail/x1920/blur/1x0/quality/100&') no-repeat;
-
+                width: 100%;
                 background-size: 100%;
             }
             #header{
@@ -57,67 +58,61 @@
                 background: rgba(255, 255, 255, 0.3);
             }
             #content{
-                margin: 80px;
+                width: 100%;
+                /* margin: 80px; */
                 min-width: 960px;
-               
+               margin-top: 80px;
             }
             #today{
                 border-radius: 5px;
-                margin: 60px;
+                margin-top: 80px;
                 
+                position: relative;
+                width: 100%;
                 height: 180px;
                 background-color: rgba(188, 194, 196, 0.6);
             }
             #future{
+                width: 100%;
                 border-radius: 5px;
-                margin: 60px;
-                
+                margin-top: 80px;
+               
                 height: 260px;
                 background-color: rgba(188, 194, 196, 0.6);
             }
-            .weather_image{
-                margin: 5px 0px 0px 300px;
-                float: left;
-                width: 90px;
-                height: 100px;
-                background-image: url('https://preview.qiantucdn.com/58pic/22/89/74/10958PIC0uX9exRxTp0he_PIC2018.png!qt324new_nowater');
-                background-repeat: no-repeat;
-                /* background-color: thistle; */
-               background-position: -23px -25px;
-            }
+            .weather_image,.future_weather_image{
+                margin-top: 0px;
+                font-size: 50px;
+                text-align: center;
+                color:white;
+            } 
             .mainInfo{
-                float: left;
-                margin: 100px 0px 0px -180px;
                 
+                margin-top: 20px;
+                float: left;
+                left: 40%;
+                
+                position: absolute;
                
             }
             .moreInfo{
+                position: absolute;
                 float: left;
-               margin: 140px 0px 0px -280px;
+                left: 35%;
+               margin: 50px 0px 0px 0px;
                
                
             }
-            .future_weather_image{
-                margin: 5px -30px 0px 100px;
-                float: left;
-                width: 90px;
-                height: 100px;
-                background-image: url('https://preview.qiantucdn.com/58pic/22/89/74/10958PIC0uX9exRxTp0he_PIC2018.png!qt324new_nowater');
-                background-repeat: no-repeat;
-                /* background-color: thistle; */
-                /*background-position: -23px -25px;*/
-                background-position-x: -23px;
-                background-position-y: -25px;
-            }
+            
             .futureWeather{
                 float: left;
-                margin: 120px 0px 0px 0px;
-                
+                margin: 20px 0px 0px 30px;
+                width: 30%;
                
             }
             .futureInfo{
                 float: left;
-                margin: 0px 0px 0px -60px;
+                margin: 0px 0px 0px 60px;
                
             }
         </style>
@@ -132,48 +127,47 @@
         </div>
        <div id="content">
            <div id="today">
-               <div class="weather_image" id="futureImage0"></div>
-               
+               <div class="weather_image">Today</div>
+              
                 <div class="mainInfo">
                     <span class="info">城市</span> |
                     <span class="info">201X-XX-XX</span> |
                     <span class="info">星期X</span> |
-                    <span class="info" class="tianqi">天气</span> 
+                    <span class="info">天气</span> 
                 </div>
                 <div class="moreInfo">
                     今日温度：<span class="info">-----</span>
                     风力：<span class="info">-----</span>
                     风向：<span class="info">-----</span>
-                    PM2.5：<span class="info">--</span>
+                    PM2.5：<span class="info">----</span>
                 </div>
          </div>
            <div id="future">
-            <div class="future_weather_image" id="futureImage1"></div>
+            <div class="future_weather_image">Future</div>
                
             <div class="futureWeather">
                 <span class="futureInfo">城市</span><br>
                 <span class="futureInfo">201X-XX-XX</span><br>
                 <span class="futureInfo">星期X</span><br>
-                <span class="futureInfo" class="tianqi">天气</span><br>
+                <span class="futureInfo">天气</span><br>
            
                 <span class="futureInfo">-----</span>
                
             </div>
-            <div class="future_weather_image" id="futureImage2"></div>
-            <div class="futureWeather">
+                <div class="futureWeather">
                 <span class="futureInfo">城市</span><br>
                 <span class="futureInfo">201X-XX-XX</span><br>
                 <span class="futureInfo">星期X</span><br>
-                <span class="futureInfo" class="tianqi">天气</span><br> 
+                <span class="futureInfo">天气</span><br> 
                 <span class="futureInfo">-----</span>
                
             </div>
-            <div class="future_weather_image" id="futureImage3"></div>
+            
             <div class="futureWeather">
                 <span class="futureInfo">城市</span><br>
                 <span class="futureInfo">201X-XX-XX</span><br>
                 <span class="futureInfo">星期X</span><br>
-                <span class="futureInfo" class="tianqi">天气</span><br>
+                <span class="futureInfo">天气</span><br>
            
                 <span class="futureInfo">-----</span>
                
@@ -187,7 +181,8 @@
     var inputCity=document.getElementById("text");//输入城市
     var btn=document.getElementById("btn");//查询按钮
     
-    var weatherImage=document.getElementsByClassName("weather_image");//天气logo
+    var weatherImage=document.getElementsByClassName("weather_image");//当日天气logo
+    var future_weather_image=document.querySelectorAll('future_weather_image');
     var weather_text=document.getElementsByClassName("weather_text");
     var info=document.getElementsByClassName("info");
     var futureInfo=document.getElementsByClassName('futureInfo');
@@ -218,7 +213,7 @@ function getCity() {
         var city = result.name.substring(0, result.name.length - 1);
         //请求当前城市的天气数据
         jsonp(createUrl(city)[0]);//jsonp跨域请求
-        jsonp(createUrl(city)[1]);
+        //jsonp(createUrl(city)[1]);
     }
     var cityName = new BMap.LocalCity();
     cityName.get(city);
@@ -244,6 +239,7 @@ function getWeather(response) {
     info[5].innerHTML = data[0].winp;
     info[6].innerHTML = data[0].wind;
     info[7].innerHTML = data[0].pm25;
+   
     //未来三天天气
     var aDiv = document.getElementsByClassName('futureWeather');
     for (var i = 0; i < aDiv.length; i++) {
@@ -254,13 +250,13 @@ function getWeather(response) {
         aSpan[3].innerHTML = data[i + 1].weather;
         aSpan[4].innerHTML = data[i + 1].temperature;
     }
-    //根据返回数据，替换不同天气图片
-    changeImg(response); 
+    
 }
 
 function getTodayWeather(response) {
     
     var data = response.results;
+    
     info[7].innerHTML = data[0].pm25;
     info[8].innerHTML = data[0].index[4].zs;
     info[9].innerHTML = data[0].index[1].zs;
@@ -268,31 +264,7 @@ function getTodayWeather(response) {
     info[11].innerHTML = data[0].index[0].zs;
 }
 
-//根据获取到的数据更改页面中相应的图片
-function changeImg(data){
-   
-    var we=document.getElementsByClassName('tianqi');
-    
-    
-    if(we.innerHTML="多云"){
-        var future_weatherImage0=document.getElementById("futureImage0");
-        var future_weatherImage1=document.getElementById("futureImage1");
-        var future_weatherImage2=document.getElementById("futureImage2");
-        var future_weatherImage3=document.getElementById("futureImage3");
-        future_weatherImage0.style.backgroundPositionX="-115px";
-        future_weatherImage1.style.backgroundPositionX="-115px";
-        future_weatherImage2.style.backgroundPositionX="-115px";
-        future_weatherImage3.style.backgroundPositionX="-115px";
-     
-    }else if(we.innerHTML="晴"){
-        future_weatherImage0.style.backgroundPositionX="-23px";
-        future_weatherImage1.style.backgroundPositionX="-23px";
-        future_weatherImage2.style.backgroundPositionX="-23px";
-        future_weatherImage3.style.backgroundPositionX="-23px";
-    }
-    //}
-}
-//选择图片
+
 
 
 //根据城市名创建请求数据及url
@@ -305,10 +277,11 @@ function createUrl() {
     }
     var urls = [];
     urls[0] = 'https://sapi.k780.com/?app=weather.future&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json&jsoncallback=getWeather&weaid=' + encodeURI(cityName);
-    urls[1] = 'https://api.map.baidu.com/telematics/v3/weather?output=json&ak=FK9mkfdQsloEngodbFl4FeY3&callback=getTodayWeather&location=' + encodeURI(cityName);
+    //urls[1] = 'https://api.map.baidu.com/telematics/v3/weather?output=json&ak=FK9mkfdQsloEngodbFl4FeY3&callback=getTodayWeather&location=' + encodeURI(cityName);
     return urls;
+    
 }
-
+console.log('https://sapi.k780.com/?app=weather.future&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json&jsoncallback=getWeather&weaid=101010100');
 
 
 </script>
