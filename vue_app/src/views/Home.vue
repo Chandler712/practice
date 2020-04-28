@@ -23,9 +23,9 @@
     <div class="product-list">
       <ul>
         <li class="lists" v-for="item in items" :key="item.product_id">
-        <a>
+        <router-link :to="'/detail/'+item.product_id">
           <img :src="item.url" width="150px" height="150px"/>
-        </a>
+        </router-link>
         <label>
           <h5 class="product-name">{{item.product_name}}</h5>
           <b class="discount">{{item.discount_price}}</b>

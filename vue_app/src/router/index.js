@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Find from '../views/Find.vue'
+import Detail from '../views/Detail.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -24,6 +25,10 @@ Vue.use(VueRouter)
     path: '/mine',
     
     component: Home
+  },
+  {
+    path:'/detail/:pageNumber',
+    component: Detail
   },
   {
     path: '/about',
