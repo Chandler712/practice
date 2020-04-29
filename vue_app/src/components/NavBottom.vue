@@ -33,11 +33,11 @@ export default {
 }
 .nav-buttom{
     
-    height: 50px;
+    height: 60px;
    /*  width: 30em; */ 
     width: 100%;
     position: fixed;
-    bottom: 0em;
+    bottom: 0;
     display: flex;
     justify-content: space-around;
     background:#ccc;

@@ -19,22 +19,24 @@
       </div>
     </div> -->
     <Banner :imgArr="imgArr"/>
+    
     <!-- 列表展示 -->
-    <div class="product-list">
+    <ProductList />
+<!--     <div class="product-list">
       <ul>
         <li class="lists" v-for="item in items" :key="item.product_id">
         <router-link :to="'/detail/'+item.product_id">
-          <img :src="item.url" width="150px" height="150px"/>
+          <img :src="item.url" width="162px" height="162px"/>
         </router-link>
         <label>
           <h5 class="product-name">{{item.product_name}}</h5>
-          <b class="discount">{{item.discount_price}}</b>
+          <b class="discount" width="50px" height="50px">{{item.discount_price}}</b>
           <span class="price-text">{{item.sale_price}}</span>
         </label>
         </li>
       </ul>
 
-    </div>
+    </div> -->
   </div>
 </template>
 <style>
@@ -43,12 +45,13 @@
 //import axios from 'axios';
 import Banner from '../components/Banner.vue';
 import NavHeader from '../components/NavHeader.vue';
-
+import ProductList from '../components/ProductList.vue';
 export default {
   name: 'Home',
   components:{
     NavHeader,
     Banner,
+    ProductList,
     },
     data(){
     return{
@@ -94,7 +97,7 @@ export default {
   */
 }
 },
-methods:{
+/* methods:{
   getList(){
     this.$http.get('/home/index.php').then(res=>{
       
@@ -106,7 +109,7 @@ methods:{
 },
 mounted:function(){
   this.getList();
-}
+} */
 }
 
 </script>
